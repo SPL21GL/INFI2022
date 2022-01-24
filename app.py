@@ -9,7 +9,7 @@ app.secret_key = "VerySecretSecretKey"
 
 #Datenbankzugriff konfigurieren
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:root@localhost/todoApp"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:root@localhost/todoItemApp"
 db.init_app(app)
 
 @app.route("/", methods=["get","post"])
@@ -35,6 +35,12 @@ def index():
 
         return redirect("/")
 
-    return render_template("index.html", headline="Todo Items", form = addItemFormObject)
+    
+    items = db.session.query(Todoitem).all()
+
+    return render_template("index.html", \
+        headline="Todo Items", \
+        form = addItemFormObject, \
+        items = items)
 
 app.run(debug=True)

@@ -14,7 +14,7 @@
                 "FLASK_ENV": "development"
             },
             "args": [
-                "run"
+                "run", "--port", "5005"
             ],
             "jinja": true
         }

@@ -13,32 +13,57 @@
     <div class="row mb-3">
         <label for="title" class="col-sm-2 col-form-label">Title</label>
         <div class="col-sm-10">
-                {{form.title()}}
+            {{form.title()}}
         </div>
     </div>
 
     <div class="row mb-3">
         <label for="description" class="col-sm-2 col-form-label">Description</label>
         <div class="col-sm-10">
-                {{form.description()}}
+            {{form.description()}}
         </div>
     </div>
 
     <div class="row mb-3">
         <label for="dueDate" class="col-sm-2 col-form-label">Due Date</label>
         <div class="col-sm-10">
-                {{form.dueDate()}}
+            {{form.dueDate()}}
         </div>
     </div>
 
     <div class="row mb-3">
         <label for="isDone" class="col-sm-2 col-form-label">Is Done</label>
         <div class="col-sm-10">
-                {{form.isDone()}}
+            {{form.isDone()}}
         </div>
     </div>
 
     <button type="submit" class="btn btn-primary">Add</button>
 </form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <td scope="col">Item Id</td>
+            <td scope="col">Title</td>
+            <td scope="col">Description</td>
+            <td scope="col">Due Date</td>
+            <td scope="col">Is Done</td>
+            <td scope="col">Actions</td>
+        </tr>
+    </thead>
+    <tbody>
+        {%for item in items:%}
+            <tr>
+                <td scope="row">{{item.itemId}}</td>
+                <td>{{item.title}}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        {%endfor%}
+    </tbody>
+</table>
 
 {%endblock%}
