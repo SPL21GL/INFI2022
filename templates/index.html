@@ -57,11 +57,18 @@
             <tr>
                 <td scope="row">{{item.itemId}}</td>
                 <td>{{item.title}}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+                <td>{{item.description}}</td>
+                <td>{{item.dueDate}}</td>
+                <td>{{item.isDone}}</td>
+                <td>
+                <form method="post" action="/items/delete">
+                    {{form.csrf_token}}
+                    <input type="hidden" id="itemId" name="itemId" value="{{item.itemId}}">
+                    <button class="btn btn-danger" onclick="deleteItem(this); return false;">❌</button>
+                </form>
+                ✏️
+                </td>
+            </tr> 
         {%endfor%}
     </tbody>
 </table>

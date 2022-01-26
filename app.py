@@ -3,6 +3,7 @@ from flask.templating import render_template
 from model import db, Todoitem
 
 from addItemForm import AddItemForm
+from deleteItemForm import DeleteItemForm
 
 app = Flask(__name__)
 app.secret_key = "VerySecretSecretKey"
@@ -11,6 +12,16 @@ app.secret_key = "VerySecretSecretKey"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:root@localhost/todoItemApp"
 db.init_app(app)
+
+@app.route("/items/delete", methods=["post"])
+def deleteItem():
+    deleteItemFormObj = DeleteItemForm()
+    if deleteItemFormObj.validate_on_submit():
+        print("gültig")
+        print(deleteItemFormObj.itemId)
+    else:
+        print("Fatal Error")        
+    return redirect("/")
 
 @app.route("/", methods=["get","post"])
 def index():
