@@ -66,7 +66,8 @@
                     <input type="hidden" id="itemId" name="itemId" value="{{item.itemId}}">
                     <button class="btn btn-danger" onclick="deleteItem(this); return false;">❌</button>
                 </form>
-                ✏️
+                <button class="btn btn-info" 
+                    onclick="window.location.href='/editForm?itemid={{item.itemId}}'">✏️</button>
                 </td>
             </tr> 
         {%endfor%}

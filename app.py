@@ -1,5 +1,6 @@
 from flask import Flask, redirect
 from flask.templating import render_template
+from editItemFrom import EditItemForm
 from model import db, Todoitem
 
 from addItemForm import AddItemForm
@@ -18,7 +19,14 @@ def deleteItem():
     deleteItemFormObj = DeleteItemForm()
     if deleteItemFormObj.validate_on_submit():
         print("gültig")
-        print(deleteItemFormObj.itemId)
+        #db objekt holen
+        #delete command ausführen
+
+        itemIdToDelete = deleteItemFormObj.itemId.data
+        itemToDelete = db.session.query(Todoitem).filter(Todoitem.itemId == itemIdToDelete)
+        itemToDelete.delete()
+        
+        db.session.commit()
     else:
         print("Fatal Error")        
     return redirect("/")
@@ -45,7 +53,7 @@ def index():
         db.session.commit()
 
         return redirect("/")
-
+        
     
     items = db.session.query(Todoitem).all()
 
@@ -53,5 +61,13 @@ def index():
         headline="Todo Items", \
         form = addItemFormObject, \
         items = items)
+
+@app.route("/editForm")
+def showEditForm():
+    #hier itemid auslesen
+    #item laden
+    #form befüllen
+    editItemFormObject = EditItemForm()
+    return render_template("editForm.html", form = editItemFormObject)
 
 app.run(debug=True)
