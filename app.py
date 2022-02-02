@@ -1,4 +1,4 @@
-from flask import Flask, redirect, request
+from flask import Flask, redirect, request, flash
 from flask.templating import render_template
 from editItemFrom import EditItemForm
 from model import db, Todoitem
@@ -28,7 +28,10 @@ def deleteItem():
         
         db.session.commit()
     else:
-        print("Fatal Error")        
+        print("Fatal Error")
+    
+    flash(f"Item with id {itemIdToDelete} has been deleted")    
+
     return redirect("/")
 
 @app.route("/", methods=["get","post"])
