@@ -1,4 +1,4 @@
-from flask import Flask, redirect
+from flask import Flask, redirect, request
 from flask.templating import render_template
 from editItemFrom import EditItemForm
 from model import db, Todoitem
@@ -56,18 +56,49 @@ def index():
         
     
     items = db.session.query(Todoitem).all()
-
+    
     return render_template("index.html", \
         headline="Todo Items", \
         form = addItemFormObject, \
         items = items)
 
+@app.route("/editForm",methods=["post"])
+def submitEditForm():
+    editItemFormObject = EditItemForm()
+
+    if editItemFormObject.validate_on_submit():
+        print("Submit wurde durchgeführt")
+        #daten aus form auslesen
+        #neuer title -> editItemFormObject.title.data
+        #daten mit update in DB speichern
+
+        itemId = editItemFormObject.itemId.data
+
+        item_to_edit = db.session.query(Todoitem).filter(Todoitem.itemId == itemId).first()
+        item_to_edit.title = editItemFormObject.title.data
+
+        db.session.commit()
+
+        return redirect("/")
+    else:
+        raise ("Fatal Error")
+
 @app.route("/editForm")
 def showEditForm():
-    #hier itemid auslesen
-    #item laden
-    #form befüllen
+    #hier itemid auslesen (wie kann man bei flask einen get parameter aus dem request auslesen)
+    itemId = request.args["itemid"]
+
+    #item laden (wie kann man einen datensatz lesen)
+    item_to_edit = db.session.query(Todoitem).filter(Todoitem.itemId == itemId).first()
+    
     editItemFormObject = EditItemForm()
+    #form befüllen
+    editItemFormObject.itemId.data = item_to_edit.itemId
+    editItemFormObject.title.data = item_to_edit.title
+    editItemFormObject.description.data = item_to_edit.description
+    editItemFormObject.dueDate.data = item_to_edit.dueDate
+    editItemFormObject.isDone.data = item_to_edit.isDone
+    
     return render_template("editForm.html", form = editItemFormObject)
 
 app.run(debug=True)
