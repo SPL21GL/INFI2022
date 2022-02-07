@@ -8,12 +8,12 @@ function deleteItem(button)
 
 function showAllToasts()
 {
-    var toastElList = [].slice.call(document.querySelectorAll('.toast'));
-    var toastList = toastElList.map(function (toastEl) {
+    let toastElList = [].slice.call(document.querySelectorAll('.toast'));
+    let toastList = toastElList.map(function (toastEl) {
         return new bootstrap.Toast(toastEl, option)
     });
     
-    //for schleife hier
+    //for of schleife hier
 }
 
 //funktion hier aufrufen
