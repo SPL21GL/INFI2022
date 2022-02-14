@@ -10,10 +10,15 @@ function showAllToasts()
 {
     let toastElList = [].slice.call(document.querySelectorAll('.toast'));
     let toastList = toastElList.map(function (toastEl) {
-        return new bootstrap.Toast(toastEl, option)
+        return new bootstrap.Toast(toastEl);
     });
     
     //for of schleife hier
+    for (let toast of toastList)
+    {
+        toast.show();
+    }
 }
 
 //funktion hier aufrufen
+showAllToasts();

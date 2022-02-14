@@ -2,9 +2,10 @@
 
 {%block body%}
 
+<h2>Page-Reloads: {{reload_count}}</h2>
 
-
-
+<div class="toast-container">
+    
 {% with messages = get_flashed_messages() %}
     {% if messages %}
         {% for message in messages %}
@@ -22,6 +23,9 @@
         {% endfor %}
     {% endif %}
 {% endwith %}
+
+</div>
+
 
 <form method="post">
     <!-- title -->

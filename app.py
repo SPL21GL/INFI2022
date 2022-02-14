@@ -1,4 +1,4 @@
-from flask import Flask, redirect, request, flash
+from flask import Flask, redirect, request, flash, session
 from flask.templating import render_template
 from editItemFrom import EditItemForm
 from model import db, Todoitem
@@ -36,6 +36,14 @@ def deleteItem():
 
 @app.route("/", methods=["get","post"])
 def index():
+
+    #holt den wert der Session Variable "number_of_reloads"
+    reload_count = session.get("number_of_reloads",1)
+    #anzahl um eins erhöhen
+    reload_count += 1
+    #neue anzahl abspeichern
+    session.update({"number_of_reloads": reload_count})
+
     addItemFormObject = AddItemForm()
     
     if addItemFormObject.validate_on_submit():
@@ -56,14 +64,14 @@ def index():
         db.session.commit()
 
         return redirect("/")
-        
     
     items = db.session.query(Todoitem).all()
     
     return render_template("index.html", \
         headline="Todo Items", \
         form = addItemFormObject, \
-        items = items)
+        items = items, \
+        reload_count = reload_count)
 
 @app.route("/editForm",methods=["post"])
 def submitEditForm():
